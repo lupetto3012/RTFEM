@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+
+keyname: SAPCRYPTO
+keyvendor: sap.com
+keylocation: SAP AG
+
+version: 8.5.49
+patch number: 8549
+os: NTAMD64
+compiled for: 64 BIT
+make variant: 720_REL
+
+downward-compatible to: 700 710 701 702 703 711 720 730 731 732 738 740 741 742

@@ -1,0 +1,16 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 4
+    ignoreErrors:
+        - '#Access to an undefined property DOMNamedNodeMap::\$length#'
+        - '#Calling the helper function#'
+    paths:
+        - src
+        - config
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+    treatPhpDocTypesAsCertain: false
+    checkMissingIterableValueType: false
