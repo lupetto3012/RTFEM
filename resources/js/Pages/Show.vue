@@ -3,7 +3,7 @@
         <div class="row flex-center">
             <div class="col-8 col">
                 <pre class="border"
-                    style="word-wrap: break-word; white-space: pre-wrap; overflow-wrap: break-word;"><component v-for="(part, index) in textParts" :key="index" :is="part.component" v-html="part.content"></component></pre>
+                    style="word-wrap: break-word; white-space: pre-wrap; overflow-wrap: break-word; line-height: 2"><component v-for="(part, index) in textParts" :key="index" :is="part.component" v-html="part.content"></component></pre>
             </div>
         </div>
     </Layout>
@@ -39,12 +39,16 @@ export default {
                 if (part == "\n") {
                     this.textParts.push({ content: "", component: Linebreak });
                 } else {
+                    var found = false;
                     for (var highlight of this.$page.props.entry.highlights) {
                         if (part == highlight) {
-                            this.textParts.push({ content: part, component: Highlight });
-                        } else {
-                            this.textParts.push({ content: part, component: Text });
+                            found = true;
                         }
+                    }
+                    if (found) {
+                        this.textParts.push({ content: part, component: Highlight });
+                    } else {
+                        this.textParts.push({ content: part, component: Text });
                     }
                 }
             }
