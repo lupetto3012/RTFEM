@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('entries', function (Blueprint $table) {
             $table->id();
             $table->string('random', 4)->unique();
-            $table->string('log');
+            $table->text('log');
             $table->json('highlights');
             $table->timestamps();
         });

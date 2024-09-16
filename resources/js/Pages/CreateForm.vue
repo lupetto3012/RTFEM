@@ -20,6 +20,16 @@
                 <button class="btn-block btn-secondary" @click=submit()>Create</button>
             </div>
         </div>
+        <input class="modal-state" id="modal-1" v-model="showModal" type="checkbox">
+        <div class="modal">
+            <label class="modal-bg" for="modal-1"></label>
+            <div class="modal-body">
+                <label class="btn-close" for="modal-1">X</label>
+                <h4 class="modal-title">Here's your link...</h4>
+                <input class="input-block" :value="viewUrl" disabled type="text" size="50" />
+                <button class="btn-block btn-primary mt-2" @click="copyToClipboard()">Copy to clipboard</button>
+            </div>
+        </div>
     </Layout>
 </template>
 
@@ -37,7 +47,9 @@ export default {
             form: useForm({
                 log: null,
                 highlights: []
-            })
+            }),
+            random: null,
+            showModal: false
         }
     },
     methods: {
@@ -45,26 +57,35 @@ export default {
 
         },
         submit() {
-            this.form.put("/create", {
-                onSuccess: () => {
-                    emitter.emit("message", { type: "success", msg: "Successfully created " + this.form.name });
-                    this.$emit("done", "success");
+            this.form.put("/", {
+                onSuccess: (response) => {
+                    this.random = response.props.random;
+                    this.showModal = true;
+                    this.reset();
                 },
                 onError: () => {
-
+                    alert("Error...");
                 }
             });
         },
         selectHighlight() {
             const textarea = this.$refs.log;
-            this.form.highlights.push(this.form.log.slice(textarea.selectionStart, textarea.selectionEnd));
+            const highlight = this.form.log.slice(textarea.selectionStart, textarea.selectionEnd);
+            if (!this.form.highlights.includes(highlight)) {
+                this.form.highlights.push(highlight);
+            }
+        },
+        copyToClipboard() {
+            copyToClipboard(this.viewUrl);
         },
         reset() {
             this.form.reset();
         }
     },
     computed: {
-
+        viewUrl() {
+            return window.location + this.random;
+        }
     },
     mounted() {
         this.init();

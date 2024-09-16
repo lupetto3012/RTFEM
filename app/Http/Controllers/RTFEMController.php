@@ -25,12 +25,17 @@ class RTFEMController extends Controller
         $entry->log = $request->log;
         $entry->highlights = json_encode($request->highlights);
         $entry->save();
-        return response(["random" => $entry->random], 200);
+        return inertia("CreateForm", ["random" => $entry->random]);
     }
 
-    public function view(): Response
+    public function view(Request $request, $random): Response
     {
-        return Inertia::render('View');
+        $entry = Entry::where('random', $random)->first();
+        if (is_null($entry)) {
+            abort(404);
+        }
+        $entry->highlights = json_decode($entry->highlights);
+        return Inertia::render('Show', [ "entry" => $entry ]);
     }
 
     private static function generateRandom()

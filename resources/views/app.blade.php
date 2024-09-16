@@ -13,7 +13,7 @@
     @inertiaHead
 </head>
 
-<body class="paper container-sm">
+<body class="paper container-xs">
     @inertia
 </body>
 
