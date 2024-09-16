@@ -2,12 +2,8 @@
     <Layout>
         <div class="row flex-center">
             <div class="col-8 col">
-                <pre class="border" style="word-wrap: break-word; white-space: pre-wrap; overflow-wrap: break-word;"><component v-for="(part, index) in textParts" :key="index" :is="part.component" v-html="part.content"></component></pre>
-            </div>
-        </div>
-        <div class="row flex-center">
-            <div class="col-8 col">
-                
+                <pre class="border"
+                    style="word-wrap: break-word; white-space: pre-wrap; overflow-wrap: break-word;"><component v-for="(part, index) in textParts" :key="index" :is="part.component" v-html="part.content"></component></pre>
             </div>
         </div>
     </Layout>
@@ -36,7 +32,6 @@ export default {
     },
     methods: {
         init() {
-            alert(this.$page.props.entry.highlights);
             const regex = new RegExp("(\\n|" + this.$page.props.entry.highlights.join("|") + ")", "gm");
             var tmpParts = this.$page.props.entry.log.split(regex);
             //var tmpParts = [];
@@ -69,7 +64,7 @@ export default {
         }
     },
     computed: {
-        
+
     },
     mounted() {
         this.init();

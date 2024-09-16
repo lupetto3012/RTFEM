@@ -1,18 +1,21 @@
 <template>
     <Layout>
-        <div class="row flex-center">
-            <div class="col-6 col">
+        <div class="row flex-center child-borders child-shadows">
+            <div class="col-6 col border-dashed">
                 <div class="form-group">
-                    <label>Create new entry</label>
-                    <textarea ref="log" class="input-block no-resize" v-model="form.log" rows="15"
-                        placeholder="Error message..." @select="selectHighlight()" />
+                    <label>Error message</label>
+                    <textarea ref="log" class="input-block no-resize p-5" v-model="form.log" rows="15"
+                        @select="selectHighlight()"></textarea>
                 </div>
             </div>
-            <div class="col-2 col">
-                <div class="form-group">
+            <div class="col-2 col border-dashed ml-2">
+                <div class="form-group h-100">
                     <label for="paperInputs1">Highlights</label>
                     <input v-for="highlight in form.highlights" class="input-block" :value="highlight" type="text" />
                 </div>
+                <button v-if="form.highlights.length > 0" class="btn-block btn-small btn-danger-outline"
+                    @click="clearHighlights()">Clear
+                    highlights</button>
             </div>
         </div>
         <div class="row flex-center">
@@ -77,6 +80,10 @@ export default {
         },
         copyToClipboard() {
             copyToClipboard(this.viewUrl);
+        },
+        clearHighlights() {
+            window.getSelection().removeAllRanges();
+            this.form.highlights = [];
         },
         reset() {
             this.form.reset();
