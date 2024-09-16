@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         init() {
-            const regex = new RegExp("(\\n|" + this.$page.props.entry.highlights.join("|") + ")", "gm");
+            const regex = new RegExp("(\\n|" + this.fixRegex(this.$page.props.entry.highlights.join("|")) + ")", "gm");
             var tmpParts = this.$page.props.entry.log.split(regex);
             //var tmpParts = [];
             for (var part of tmpParts) {
@@ -53,18 +53,13 @@ export default {
                 }
             }
         },
-        getSmallestIndex(text) {
-            var index = -1;
-            for (var highlight of this.$page.props.entry.highlights) {
-                var tmpIndex = text.indexOf(highlight);
-                if (tmpIndex == -1) {
-                    continue;
-                }
-                if (tmpIndex < index || index != -1) {
-                    index = tmpIndex;
-                }
-            }
-            return index;
+        fixRegex(regex) {
+            return regex.replaceAll("(", "\\(")
+                .replaceAll(")", "\\)")
+                .replaceAll("[", "\\[")
+                .replaceAll("]", "\\]")
+                .replaceAll("{", "\\{")
+                .replaceAll("}", "\\}")
         }
     },
     computed: {
