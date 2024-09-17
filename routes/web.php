@@ -16,8 +16,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [RTFEMController::class, 'index'])->name("index");
+Route::get('/', [RTFEMController::class, 'index'])->name('index');
 
 Route::put('/', [RTFEMController::class, 'create'])->name('create');
 
+Route::get('/blubb', [RTFEMController::class, 'test'])->name('test');
 Route::get('/{random}', [RTFEMController::class, 'view'])->name('view');

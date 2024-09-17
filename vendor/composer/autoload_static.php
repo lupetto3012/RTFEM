@@ -223,6 +223,7 @@ class ComposerStaticInit28b920def8b0664954531e5976d73811
         'A' => 
         array (
             'App\\' => 4,
+            'Alimranahmed\\LaraOCR\\' => 21,
         ),
     );
 
@@ -719,6 +720,10 @@ class ComposerStaticInit28b920def8b0664954531e5976d73811
             0 => __DIR__ . '/../..' . '/app',
             1 => __DIR__ . '/..' . '/laravel/pint/app',
         ),
+        'Alimranahmed\\LaraOCR\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/alimranahmed/laraocr/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -732,6 +737,13 @@ class ComposerStaticInit28b920def8b0664954531e5976d73811
     );
 
     public static $classMap = array (
+        'Alimranahmed\\LaraOCR\\Commands\\ImageParsing' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Commands/ImageParsing.php',
+        'Alimranahmed\\LaraOCR\\Controllers\\OcrController' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Controllers/OcrController.php',
+        'Alimranahmed\\LaraOCR\\Facades\\OCR' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Facades/OCR.php',
+        'Alimranahmed\\LaraOCR\\LaraOCRServiceProvider' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/LaraOCRServiceProvider.php',
+        'Alimranahmed\\LaraOCR\\Services\\OcrAbstract' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Services/OcrAbstract.php',
+        'Alimranahmed\\LaraOCR\\Services\\Shell' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Services/Shell.php',
+        'Alimranahmed\\LaraOCR\\Services\\Tesseract' => __DIR__ . '/..' . '/alimranahmed/laraocr/src/Services/Tesseract.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Helpers\\OpenSSL' => __DIR__ . '/../..' . '/app/Helpers/OpenSSL.php',

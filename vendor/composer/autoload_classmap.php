@@ -6,6 +6,13 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Alimranahmed\\LaraOCR\\Commands\\ImageParsing' => $vendorDir . '/alimranahmed/laraocr/src/Commands/ImageParsing.php',
+    'Alimranahmed\\LaraOCR\\Controllers\\OcrController' => $vendorDir . '/alimranahmed/laraocr/src/Controllers/OcrController.php',
+    'Alimranahmed\\LaraOCR\\Facades\\OCR' => $vendorDir . '/alimranahmed/laraocr/src/Facades/OCR.php',
+    'Alimranahmed\\LaraOCR\\LaraOCRServiceProvider' => $vendorDir . '/alimranahmed/laraocr/src/LaraOCRServiceProvider.php',
+    'Alimranahmed\\LaraOCR\\Services\\OcrAbstract' => $vendorDir . '/alimranahmed/laraocr/src/Services/OcrAbstract.php',
+    'Alimranahmed\\LaraOCR\\Services\\Shell' => $vendorDir . '/alimranahmed/laraocr/src/Services/Shell.php',
+    'Alimranahmed\\LaraOCR\\Services\\Tesseract' => $vendorDir . '/alimranahmed/laraocr/src/Services/Tesseract.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Helpers\\OpenSSL' => $baseDir . '/app/Helpers/OpenSSL.php',

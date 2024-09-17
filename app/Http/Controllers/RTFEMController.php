@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Requests\CreateRequest;
 use App\Models\Entry;
+use Alimranahmed\LaraOCR\Facades\OCR;
 
 class RTFEMController extends Controller
 {
@@ -35,7 +36,7 @@ class RTFEMController extends Controller
             abort(404);
         }
         $entry->highlights = json_decode($entry->highlights);
-        return Inertia::render('Show', [ "entry" => $entry ]);
+        return Inertia::render('Show', ["entry" => $entry]);
     }
 
     private static function generateRandom()
@@ -48,5 +49,10 @@ class RTFEMController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    public function test(Request $request)
+    {
+        dd(OCR::scan("./example.png"));
     }
 }
