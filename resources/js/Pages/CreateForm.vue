@@ -115,7 +115,7 @@ export default {
                 break;
             }
         },
-        ocr(file) {
+        /*ocr(file) {
             this.uploading = true;
             let formData = new FormData();
             formData.append(file.name, file);
@@ -131,6 +131,31 @@ export default {
                 })
                 .then(response => {
                     this.form.log = response.data.text;
+                })
+                .catch(error => {
+                    alert("Error during OCR processing...");
+                })
+                .finally(response => {
+                    this.uploading = false;
+                });
+        },*/
+        ocr(file) {
+            this.uploading = true;
+            let formData = new FormData();
+            formData.append(file.name, file);
+            formData.append("apikey", "K88732543888957");
+            axios.post('https://api.ocr.space/parse/image',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: e => {
+                        this.uploadProgress = Math.ceil((e.loaded / e.total * 100) / 5) * 5;
+                    }
+                })
+                .then(response => {
+                    this.form.log = response.data.ParsedResults[0].ParsedText;
                 })
                 .catch(error => {
                     alert("Error during OCR processing...");
