@@ -144,6 +144,7 @@ export default {
             let formData = new FormData();
             formData.append(file.name, file);
             formData.append("apikey", "K88732543888957");
+            formData.append("isTable", "true");
             axios.post('https://api.ocr.space/parse/image',
                 formData,
                 {
@@ -155,7 +156,8 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.form.log = response.data.ParsedResults[0].ParsedText;
+                    this.form.log = response.data.ParsedResults[0].ParsedText.replaceAll(/\t/gm, "").replaceAll(/\r/gm, "");
+                    debugger;
                 })
                 .catch(error => {
                     alert("Error during OCR processing...");
@@ -193,7 +195,7 @@ export default {
         document.onpaste = (evt) => {
             const dT = evt.clipboardData || window.clipboardData;
             const file = dT.files[0];
-            if (file !== null) {
+            if (file !== undefined) {
                 this.ocr(file);
             }
         };
