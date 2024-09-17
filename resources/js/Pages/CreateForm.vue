@@ -1,12 +1,13 @@
 <template>
     <Layout>
         <div class="row flex-center child-borders child-shadows">
-            <div :class="'col-6 col border-dashed ' + dropClass" @drop="ocr" @dragover="handleFileDragOver"
+            <div :class="'col-6 col border-dashed ' + dropClass" @drop="handleFileDrop" @dragover="handleFileDragOver"
                 @dragleave="handleFileDragLeave">
                 <div class="form-group">
                     <label>Error message</label>
                     <textarea ref="log" class="input-block no-resize p-5" v-model="form.log" rows="15"
-                        @select="selectHighlight()"></textarea>
+                        @select="selectHighlight()" @input="handleTextareaChange()"
+                        placeholder="Drop or paste image to automatically read error message or just type something..."></textarea>
                 </div>
                 <div class="progress" v-if="uploading">
                     <div :class="'bar striped w-' + uploadProgress + ''" role="progressbar">{{ uploadProgress }}%
@@ -26,7 +27,10 @@
         </div>
         <div class="row flex-center">
             <div class="col-8 col">
-                <button class="btn-block btn-secondary" @click=submit()>Create</button>
+                <button class="btn-block btn-secondary" @click="submit()"
+                    @mouseover="saveHint = '(Ctrl + S would also work)'" @mouseout="saveHint = ''">Create link
+                    <small>{{
+                        saveHint }}</small></button>
             </div>
         </div>
         <input class="modal-state" id="modal-1" v-model="showModal" type="checkbox">
@@ -61,7 +65,8 @@ export default {
             showModal: false,
             uploading: false,
             uploadProgress: 0,
-            isDragging: false
+            isDragging: false,
+            saveHint: null
         }
     },
     methods: {
@@ -94,17 +99,26 @@ export default {
             window.getSelection().removeAllRanges();
             this.form.highlights = [];
         },
+        handleTextareaChange() {
+            if (!this.form.log || this.form.log.length === 0) {
+                this.clearHighlights();
+            }
+        },
         reset() {
             this.form.reset();
         },
-        ocr(e) {
+        handleFileDrop(e) {
             e.preventDefault();
             this.isDragging = false;
+            for (const file of e.dataTransfer.files) {
+                this.ocr(file);
+                break;
+            }
+        },
+        ocr(file) {
             this.uploading = true;
             let formData = new FormData();
-            for (const file of e.dataTransfer.files) {
-                formData.append(file.name, file);
-            }
+            formData.append(file.name, file);
             axios.post('/ocr',
                 formData,
                 {
@@ -151,6 +165,13 @@ export default {
             e.preventDefault();
             this.submit();
         });
+        document.onpaste = (evt) => {
+            const dT = evt.clipboardData || window.clipboardData;
+            const file = dT.files[0];
+            if (file !== null) {
+                this.ocr(file);
+            }
+        };
     },
     watch: {
 
