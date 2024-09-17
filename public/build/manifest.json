@@ -1,23 +1,23 @@
 {
-  "_Layout-629ce013.js": {
-    "file": "assets/Layout-629ce013.js",
+  "_Layout-cad93bd2.js": {
+    "file": "assets/Layout-cad93bd2.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/Pages/CreateForm.vue": {
-    "file": "assets/CreateForm-aefb9051.js",
+    "file": "assets/CreateForm-9bbdfacb.js",
     "imports": [
       "resources/js/app.js",
-      "_Layout-629ce013.js"
+      "_Layout-cad93bd2.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/CreateForm.vue"
   },
   "resources/js/Pages/Show.vue": {
-    "file": "assets/Show-a92f6d66.js",
+    "file": "assets/Show-acd3a749.js",
     "imports": [
-      "_Layout-629ce013.js",
+      "_Layout-cad93bd2.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -35,7 +35,7 @@
       "resources/js/Pages/CreateForm.vue",
       "resources/js/Pages/Show.vue"
     ],
-    "file": "assets/app-5fead998.js",
+    "file": "assets/app-fde13884.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

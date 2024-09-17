@@ -1,12 +1,18 @@
 <template>
     <Layout>
         <div class="row flex-center child-borders child-shadows">
-            <div class="col-6 col border-dashed">
+            <div :class="'col-6 col border-dashed ' + dropClass" @drop="ocr" @dragover="handleFileDragOver"
+                @dragleave="handleFileDragLeave">
                 <div class="form-group">
                     <label>Error message</label>
                     <textarea ref="log" class="input-block no-resize p-5" v-model="form.log" rows="15"
                         @select="selectHighlight()"></textarea>
                 </div>
+                <div class="progress" v-if="uploading">
+                    <div :class="'bar striped w-' + uploadProgress + ''" role="progressbar">{{ uploadProgress }}%
+                    </div>
+                </div>
+                <div v-if="uploading">OCR processing...</div>
             </div>
             <div class="col-2 col border-dashed ml-2">
                 <div class="form-group h-100">
@@ -52,7 +58,10 @@ export default {
                 highlights: []
             }),
             random: null,
-            showModal: false
+            showModal: false,
+            uploading: false,
+            uploadProgress: 0,
+            isDragging: false
         }
     },
     methods: {
@@ -87,11 +96,53 @@ export default {
         },
         reset() {
             this.form.reset();
-        }
+        },
+        ocr(e) {
+            e.preventDefault();
+            this.isDragging = false;
+            this.uploading = true;
+            let formData = new FormData();
+            for (const file of e.dataTransfer.files) {
+                formData.append(file.name, file);
+            }
+            axios.post('/ocr',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: e => {
+                        this.uploadProgress = Math.ceil((e.loaded / e.total * 100) / 5) * 5;
+                    }
+                })
+                .then(response => {
+                    this.form.log = response.data.text;
+                })
+                .catch(error => {
+                    alert("Error during OCR processing...");
+                })
+                .finally(response => {
+                    this.uploading = false;
+                });
+        },
+        handleFileDragOver(e) {
+            e.preventDefault();
+            this.isDragging = true;
+        },
+        handleFileDragLeave(e) {
+            e.preventDefault();
+            this.isDragging = false;
+        },
     },
     computed: {
         viewUrl() {
             return window.location + this.random;
+        },
+        dropClass() {
+            if (this.isDragging) {
+                return 'border-success';
+            }
+            return '';
         }
     },
     mounted() {

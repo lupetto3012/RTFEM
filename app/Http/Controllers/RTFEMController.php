@@ -11,6 +11,8 @@ use Inertia\Response;
 use App\Http\Requests\CreateRequest;
 use App\Models\Entry;
 use Alimranahmed\LaraOCR\Facades\OCR;
+use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Storage;
 
 class RTFEMController extends Controller
 {
@@ -54,5 +56,18 @@ class RTFEMController extends Controller
     public function test(Request $request)
     {
         dd(OCR::scan("./example.png"));
+    }
+
+    public function ocr(Request $request)
+    {
+        foreach ($request->allFiles() as $file) {
+            $uuid = Uuid::uuid4();
+            $filename = $file->getClientOriginalName();
+            $fullFilename = $uuid . "_" . $filename;
+            $path = $file->storeAs('public/tmpOCR', $fullFilename);
+            $text = OCR::scan(str_replace('public', 'storage', $path));
+            Storage::delete($path);
+            return response(["text" => $text], 200);
+        }
     }
 }
